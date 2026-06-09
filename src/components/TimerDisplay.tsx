@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { formatTime } from '@/lib/time'
 import { copy, type TimerMode, type TimerPhase } from '@/lib/theme'
@@ -10,7 +11,25 @@ interface Props {
 }
 
 export default function TimerDisplay({ timeLeft, mode, phase, selectedMinutes }: Props) {
+  const [useRichPromptMotion, setUseRichPromptMotion] = useState(() => {
+    if (typeof window === 'undefined') return true
+    return window.matchMedia('(hover: hover) and (pointer: fine)').matches
+  })
+
   const message = getDisplayMessage(mode, phase, selectedMinutes)
+  const promptKey = useRichPromptMotion
+    ? `${mode}-${phase}-${selectedMinutes}`
+    : `${mode}-${phase}`
+
+  useEffect(() => {
+    const query = window.matchMedia('(hover: hover) and (pointer: fine)')
+    const update = () => setUseRichPromptMotion(query.matches)
+
+    update()
+    query.addEventListener('change', update)
+
+    return () => query.removeEventListener('change', update)
+  }, [])
 
   return (
     <div className="flex flex-col items-center gap-1.5 select-none pointer-events-none">
@@ -25,9 +44,9 @@ export default function TimerDisplay({ timeLeft, mode, phase, selectedMinutes }:
         {formatTime(timeLeft)}
       </span>
 
-      <AnimatePresence mode="wait" initial={false}>
+      <AnimatePresence mode="wait" initial={useRichPromptMotion}>
         <motion.p
-          key={`${mode}-${phase}`}
+          key={promptKey}
           initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -4 }}
