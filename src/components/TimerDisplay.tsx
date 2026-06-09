@@ -20,6 +20,7 @@ export default function TimerDisplay({ timeLeft, mode, phase, selectedMinutes }:
   const promptKey = useRichPromptMotion
     ? `${mode}-${phase}-${selectedMinutes}`
     : `${mode}-${phase}`
+  const promptClassName = 'min-h-[28px] max-w-[150px] text-center text-xs font-semibold leading-tight'
 
   useEffect(() => {
     const query = window.matchMedia('(hover: hover) and (pointer: fine)')
@@ -44,19 +45,28 @@ export default function TimerDisplay({ timeLeft, mode, phase, selectedMinutes }:
         {formatTime(timeLeft)}
       </span>
 
-      <AnimatePresence mode="wait" initial={useRichPromptMotion}>
-        <motion.p
-          key={promptKey}
-          initial={{ opacity: 0, y: 4 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -4 }}
-          transition={{ duration: 0.16, ease: 'easeOut' }}
-          className="max-w-[150px] text-center text-xs font-semibold leading-tight"
+      {useRichPromptMotion ? (
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={promptKey}
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.16, ease: 'easeOut' }}
+            className={promptClassName}
+            style={{ color: 'var(--color-text-muted)' }}
+          >
+            {message}
+          </motion.p>
+        </AnimatePresence>
+      ) : (
+        <p
+          className={promptClassName}
           style={{ color: 'var(--color-text-muted)' }}
         >
           {message}
-        </motion.p>
-      </AnimatePresence>
+        </p>
+      )}
     </div>
   )
 }
