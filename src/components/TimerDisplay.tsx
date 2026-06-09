@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { formatTime } from '@/lib/time'
 import { copy, type TimerMode, type TimerPhase } from '@/lib/theme'
 
@@ -25,15 +25,19 @@ export default function TimerDisplay({ timeLeft, mode, phase, selectedMinutes }:
         {formatTime(timeLeft)}
       </span>
 
-      <motion.p
-        initial={{ opacity: 0.82 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.16, ease: 'easeOut' }}
-        className="max-w-[150px] text-center text-xs font-semibold leading-tight"
-        style={{ color: 'var(--color-text-muted)' }}
-      >
-        {message}
-      </motion.p>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.p
+          key={`${mode}-${phase}`}
+          initial={{ opacity: 0, y: 4 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -4 }}
+          transition={{ duration: 0.16, ease: 'easeOut' }}
+          className="max-w-[150px] text-center text-xs font-semibold leading-tight"
+          style={{ color: 'var(--color-text-muted)' }}
+        >
+          {message}
+        </motion.p>
+      </AnimatePresence>
     </div>
   )
 }
