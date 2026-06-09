@@ -163,7 +163,7 @@ export default function TimerDial({
           cx={CX} cy={CY} r={R_ARC}
           fill="none"
           stroke="transparent"
-          strokeWidth={42}
+          strokeWidth={54}
           className="dial-hit-area"
           onPointerDown={onPointerDown}
         />
