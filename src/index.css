@@ -1,0 +1,104 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #feeac9;
+  --color-surface: #ffcdc9;
+  --color-primary: #fd7979;
+  --color-text: #9e3b3b;
+  --color-text-muted: #c47b7b;
+  --color-dial: #fff8f0;
+  --color-knob: #ffead3;
+  --color-border: rgba(158, 59, 59, 0.12);
+  --color-shadow: rgba(158, 59, 59, 0.16);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Pretendard', system-ui, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition:
+    background-color 320ms ease,
+    color 320ms ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.timer-card {
+  transition:
+    background-color 320ms ease,
+    border-color 320ms ease,
+    box-shadow 320ms ease;
+}
+
+.mode-tab {
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
+}
+
+.primary-btn {
+  transition:
+    background-color 200ms ease,
+    box-shadow 200ms ease,
+    color 200ms ease;
+}
+
+.progress-arc {
+  transition: stroke-dashoffset 1000ms linear;
+}
+
+.timer-dial {
+  overflow: visible;
+}
+
+.dial-hit-area {
+  pointer-events: stroke;
+}
+
+.dial-label {
+  font-size: 9px;
+  font-weight: 800;
+  opacity: 0.52;
+  user-select: none;
+}
+
+.dial-bubble {
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+  pointer-events: none;
+}
+
+.dial-bubble-text {
+  font-size: 10px;
+  font-weight: 900;
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
